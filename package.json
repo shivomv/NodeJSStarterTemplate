@@ -1,0 +1,21 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "The objective of this project is to develop a comprehensive e-commerce platform using the MERN stack (MongoDB, Express.js, React.js, Node.js). The platform will include a user-facing website for shopping and an admin panel for managing the backend operations, including products, orders, and user accounts.",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
