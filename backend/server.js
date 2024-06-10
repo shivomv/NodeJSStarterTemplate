@@ -1,6 +1,7 @@
 const app = require("./app");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database");
+const setupSwaggerDocs = require('./config/swaggerConfig');
 
 // Handle Uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -22,6 +23,9 @@ dotenv.config({ path: "backend/config/config.env" });
 connectDatabase();
 
 const port = process.env.PORT || 5000;
+
+// Integrate Swagger
+setupSwaggerDocs(app);
 
 let server;
 server = app.listen(port, () => {
