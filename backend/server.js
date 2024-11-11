@@ -1,9 +1,14 @@
-const app = require("./app");
-const dotenv = require("dotenv");
-const connectDatabase = require("./config/database");
-const setupSwaggerDocs = require('./config/swaggerConfig');
+// Import required modules
+const app = require("./app"); // Import the Express app instance
+const dotenv = require("dotenv"); // Import the dotenv module for environment variable management
+const connectDatabase = require("./config/database"); // Import the database connection module
+const setupSwaggerDocs = require('./config/swaggerConfig'); // Import the Swagger documentation setup module
 
-// Handle Uncaught Exception
+// Handle Uncaught Exceptions
+/**
+ * Catch and handle uncaught exceptions to prevent server crashes.
+ * Log the error message and shut down the server.
+ */
 process.on("uncaughtException", (err) => {
     console.error(`Error: ${err.message}`);
     console.error("Shutting down the server due to Uncaught Exception");
@@ -16,23 +21,45 @@ process.on("uncaughtException", (err) => {
     }
 });
 
-// Config
+// Load Environment Variables
+/**
+ * Load environment variables from the config.env file using dotenv.
+ */
 dotenv.config({ path: "backend/config/config.env" });
 
-// Connect to database
+// Connect to Database
+/**
+ * Establish a connection to the database using the connectDatabase module.
+ */
 connectDatabase();
 
+// Set Port Number
+/**
+ * Set the port number for the server to listen on.
+ * Use the PORT environment variable or default to 5000.
+ */
 const port = process.env.PORT || 5000;
 
-// Integrate Swagger
+// Integrate Swagger Documentation
+/**
+ * Set up Swagger documentation for the API using the setupSwaggerDocs module.
+ */
 setupSwaggerDocs(app);
 
+// Start Server
+/**
+ * Start the server and listen on the specified port.
+ */
 let server;
 server = app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
-// Handle Unhandled Promise Rejection
+// Handle Unhandled Promise Rejections
+/**
+ * Catch and handle unhandled promise rejections to prevent server crashes.
+ * Log the error message and shut down the server.
+ */
 process.on("unhandledRejection", (err) => {
     console.error(`Error: ${err.message}`);
     console.error("Shutting down the server due to Unhandled Promise Rejection");
