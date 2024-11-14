@@ -2,24 +2,6 @@
 const app = require("./app"); // Import the Express app instance
 const dotenv = require("dotenv"); // Import the dotenv module for environment variable management
 const connectDatabase = require("./config/database"); // Import the database connection module
-const setupSwaggerDocs = require('./config/swaggerConfig'); // Import the Swagger documentation setup module
-
-// Handle Uncaught Exceptions
-/**
- * Catch and handle uncaught exceptions to prevent server crashes.
- * Log the error message and shut down the server.
- */
-process.on("uncaughtException", (err) => {
-    console.error(`Error: ${err.message}`);
-    console.error("Shutting down the server due to Uncaught Exception");
-    if (server) {
-        server.close(() => {
-            process.exit(1);
-        });
-    } else {
-        process.exit(1);
-    }
-});
 
 // Load Environment Variables
 /**
@@ -40,12 +22,6 @@ connectDatabase();
  */
 const port = process.env.PORT || 5000;
 
-// Integrate Swagger Documentation
-/**
- * Set up Swagger documentation for the API using the setupSwaggerDocs module.
- */
-setupSwaggerDocs(app);
-
 // Start Server
 /**
  * Start the server and listen on the specified port.
@@ -53,6 +29,23 @@ setupSwaggerDocs(app);
 let server;
 server = app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
+});
+
+// Handle Uncaught Exceptions
+/**
+ * Catch and handle uncaught exceptions to prevent server crashes.
+ * Log the error message and shut down the server.
+ */
+process.on("uncaughtException", (err) => {
+    console.error(`Error: ${err.message}`);
+    console.error("Shutting down the server due to Uncaught Exception");
+    if (server) {
+        server.close(() => {
+            process.exit(1);
+        });
+    } else {
+        process.exit(1);
+    }
 });
 
 // Handle Unhandled Promise Rejections
