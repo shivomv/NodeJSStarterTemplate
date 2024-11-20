@@ -141,6 +141,7 @@ exports.getUserDetailsAdmin = catchAsyncErrors(async (req, res, next) => {
     });
 })
 
+
 // Update user role (admin)
 exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
@@ -152,6 +153,10 @@ exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    });
+    res.status(200).json({
+        success: true,
+        user
     });
 })
 
