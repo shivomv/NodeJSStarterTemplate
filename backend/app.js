@@ -15,10 +15,12 @@ app.use(cookieParser()); // Enable cookie parsing for incoming requests
 // Import route modules
 const product = require("./routes/productRoute"); // Import product route module
 const user = require("./routes/userRoute"); // Import user route module
+const order = require("./routes/orderRoute"); // Import order route module
 
 // Use routes
 app.use("/api/v1", product); // Mount product routes at /api/v1
 app.use("/api/v1", user); // Mount user routes at /api/v1
+app.use("/api/v1", order); // Mount order routes at /api/v1
 
 // Middleware for handling errors
 app.use(errorMiddleware); // Use error handling middleware to catch and handle errors

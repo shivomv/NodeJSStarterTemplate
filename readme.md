@@ -362,7 +362,7 @@ This database schema provides a solid foundation for developing a structured and
         type: String,
         required: [true, "Please Enter Product Category"]
     },
-    Stock: {
+    stock: {
         type: Number,
         required: [true, "Please Enter Product Quantity"],
         default: 1
