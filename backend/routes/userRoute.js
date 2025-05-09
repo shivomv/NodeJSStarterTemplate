@@ -3,6 +3,9 @@ const { registerUser, loginUser, logout, forgotPassword, resetPassword, getUserD
 const router = express.Router()
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth")
 
+router.route("/").get((req, res) => {
+    res.send("Hello from user route")
+})
 router.route("/register").post(registerUser)
 router.route("/login").post(loginUser)
 router.route("/password/forgot").post(forgotPassword)
