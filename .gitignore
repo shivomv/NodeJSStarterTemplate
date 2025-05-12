@@ -71,6 +71,7 @@ config/config.local.js
 # Ignore backend specific files
 backend/config/config.js
 backend/config/config.local.js
+backend/config/config.env
 
 # Ignore frontend specific files
 frontend/dist/
