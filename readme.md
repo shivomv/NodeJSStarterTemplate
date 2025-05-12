@@ -1,51 +1,34 @@
-# User Authentication Template
+# NodeJS Starter Template
 
-A reusable user authentication system template built with the MERN stack (MongoDB, Express.js, React.js, Node.js). This template provides a complete user management system with features like registration, login, password reset, and role-based access control.
+A comprehensive MERN stack (MongoDB, Express.js, React.js, Node.js) starter template with built-in user authentication, logging system, and Swagger documentation. This template provides a solid foundation for building scalable web applications with a service-based architecture.
 
 ## Features
 
-### User Authentication
-- User registration with email
-- User login with JWT authentication
+### User Authentication System
+- Complete user registration and login flow
+- JWT-based authentication with HTTP-only cookies
 - Password reset functionality with email verification
 - Secure password storage with bcrypt hashing
 - Role-based access control (user/admin)
 
-### Security
-- JWT for secure authentication
-- HTTP-only cookies for token storage
-- Password hashing with bcrypt
-- Input validation and sanitization
-- Protection against common web vulnerabilities
+### API Documentation
+- Integrated Swagger UI for API documentation
+- Accessible to unauthenticated users for viewing
+- Authentication required for actual API usage
+- Organized by service domains
 
-## API Endpoints
+### Logging System
+- Consolidated structured logging approach
+- Detailed audit logging for user activities
+- Captures old/new values for update and delete operations
+- Admin interface for viewing and filtering logs
+- Dynamic table structure based on log types
 
-### User Routes
-- `POST /api/v1/users/register` - Register a new user
-- `POST /api/v1/users/login` - Login a user
-- `GET /api/v1/users/logout` - Logout a user
-- `POST /api/v1/users/password/forgot` - Request password reset
-- `PUT /api/v1/users/password/reset/:token` - Reset password with token
-- `PUT /api/v1/users/password/change` - Change password (authenticated)
-- `GET /api/v1/users/me` - Get user profile (authenticated)
-
-### Admin Routes
-- `GET /api/v1/users/admin/users` - Get all users (admin only)
-- `GET /api/v1/users/admin/user/:id` - Get user by ID (admin only)
-- `PUT /api/v1/users/admin/user/:id` - Update user role (admin only)
-
-## User Management Features
-
-### User Profile Management
-- Users can view their profile information
-- Users can update their profile details
-- Users can change their passwords securely
-- Password reset functionality with email verification
-
-### Admin Capabilities
-- Admins can view all registered users
-- Admins can view detailed information for any user
-- Admins can update user roles (promote to admin or demote to regular user)
+### Architecture
+- Service-based approach for better code organization
+- Middleware for Swagger documentation
+- Separation of concerns with controllers, services, and validators
+- Centralized error handling
 
 ## Tech Stack
 
@@ -74,8 +57,8 @@ A reusable user authentication system template built with the MERN stack (MongoD
 
 1. Clone the repository
 ```bash
-git clone <repository-url>
-cd user-auth-template
+git clone https://github.com/shivomv/NodeJSStarterTemplate.git
+cd NodeJSStarterTemplate
 ```
 
 2. Install dependencies
@@ -221,7 +204,46 @@ npm run dev
 
 ## Usage
 
-This template can be used as a starting point for any application that requires user authentication. Simply clone the repository and customize it according to your needs.
+This NodeJS Starter Template is designed to be a foundation for all future projects, providing essential functionality out of the box:
+
+### What's Already Defined
+
+1. **User Authentication System**
+   - Complete registration, login, and password reset flows
+   - JWT-based authentication with secure HTTP-only cookies
+   - Role-based access control (user/admin)
+
+2. **API Documentation**
+   - Swagger UI integration for automatic API documentation
+   - Organized by service domains for better navigation
+   - Authentication-aware documentation
+
+3. **Logging System**
+   - Structured logging with different log types
+   - Audit logging for tracking user activities
+   - Admin interface for viewing and filtering logs
+
+4. **Project Structure**
+   - Service-based architecture for better code organization
+   - Clear separation of concerns (controllers, services, validators)
+   - Middleware for common functionality
+
+### How to Use This Template
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/shivomv/NodeJSStarterTemplate.git my-new-project
+   cd my-new-project
+   ```
+
+2. **Install dependencies and set up your environment**
+   - Follow the installation instructions in the Getting Started section
+   - Customize the environment variables for your specific project
+
+3. **Start building your application**
+   - Add your own models, controllers, and services
+   - Extend the existing user system as needed
+   - Implement your business logic on top of this foundation
 
 ## Extending the Template
 
@@ -235,4 +257,13 @@ You can extend this template by:
 
 ## License
 
-This project is licensed under the ISC License.
+This project is licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). See the [LICENSE](./LICENSE) file for details.
+
+### You are free to:
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material for any purpose, even commercially
+
+### Under the following terms:
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
