@@ -21,18 +21,18 @@ A reusable user authentication system template built with the MERN stack (MongoD
 ## API Endpoints
 
 ### User Routes
-- `POST /api/v1/register` - Register a new user
-- `POST /api/v1/login` - Login a user
-- `GET /api/v1/logout` - Logout a user
-- `POST /api/v1/password/forgot` - Request password reset
-- `PUT /api/v1/password/reset/:token` - Reset password with token
-- `PUT /api/v1/password/change` - Change password (authenticated)
-- `GET /api/v1/me` - Get user profile (authenticated)
+- `POST /api/v1/users/register` - Register a new user
+- `POST /api/v1/users/login` - Login a user
+- `GET /api/v1/users/logout` - Logout a user
+- `POST /api/v1/users/password/forgot` - Request password reset
+- `PUT /api/v1/users/password/reset/:token` - Reset password with token
+- `PUT /api/v1/users/password/change` - Change password (authenticated)
+- `GET /api/v1/users/me` - Get user profile (authenticated)
 
 ### Admin Routes
-- `GET /api/v1/admin/users` - Get all users (admin only)
-- `GET /api/v1/admin/user/:id` - Get user by ID (admin only)
-- `PUT /api/v1/admin/user/:id` - Update user role (admin only)
+- `GET /api/v1/users/admin/users` - Get all users (admin only)
+- `GET /api/v1/users/admin/user/:id` - Get user by ID (admin only)
+- `PUT /api/v1/users/admin/user/:id` - Update user role (admin only)
 
 ## User Management Features
 
@@ -175,6 +175,11 @@ npm run dev
 
 ```
 ├── backend/
+│   ├── api/
+│   │   └── v1/
+│   │       ├── routes/
+│   │       │   ├── index.js
+│   │       │   └── userRoutes.js
 │   ├── config/
 │   │   ├── config.env
 │   │   └── database.js
@@ -183,16 +188,25 @@ npm run dev
 │   ├── middlewares/
 │   │   ├── auth.js
 │   │   ├── catchAsyncErrors.js
-│   │   └── error.js
+│   │   ├── error.js
+│   │   └── validator.js
 │   ├── models/
 │   │   └── userModel.js
-│   ├── routes/
-│   │   └── userRoute.js
+│   ├── services/
+│   │   └── userService.js
 │   ├── utils/
 │   │   ├── ErrorHandler.js
 │   │   ├── apiFeatures.js
 │   │   ├── jwtToken.js
+│   │   ├── logger.js
 │   │   └── sendEmail.js
+│   ├── validators/
+│   │   └── userValidators.js
+│   ├── logs/
+│   │   ├── combined.log
+│   │   ├── error.log
+│   │   ├── exceptions.log
+│   │   └── rejections.log
 │   ├── app.js
 │   └── server.js
 ├── frontend/

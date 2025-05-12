@@ -1,36 +1,88 @@
 // Import required modules
-const express = require("express"); // Import the Express.js framework
-const cookieParser = require("cookie-parser"); // Import the cookie-parser middleware
-const path = require("path"); // Add path module
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const path = require("path");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const cors = require("cors");
+const morgan = require("morgan");
+const logger = require("./utils/logger");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 // Create an instance of the Express app
 const app = express();
 
-// Import error handling middleware
+// Import middleware
 const errorMiddleware = require("./middlewares/error");
+const auditMiddleware = require("./middlewares/auditMiddleware");
+
+// Security middleware
+// Configure Helmet with exceptions for Swagger UI
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+    },
+  },
+}));
+app.use(cors({
+  origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_URL : "http://localhost:3000",
+  credentials: true
+}));
+
+// HTTP request logging
+if (process.env.NODE_ENV === "development") {
+  // Detailed logging in development
+  app.use(morgan("dev"));
+} else {
+  // Use combined format and log to Winston in production
+  app.use(morgan("combined", { stream: logger.stream }));
+}
+
+// Limits each IP to 100 requests per 15 minutes on /api routes, protecting against DDoS or abuse.
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: "Too many requests from this IP, please try again after 15 minutes"
+});
+app.use("/api", limiter);
 
 // Middleware to parse JSON requests
-app.use(express.json()); // Enable JSON parsing for incoming requests
-app.use(cookieParser()); // Enable cookie parsing for incoming requests
+app.use(express.json({ limit: "10kb" })); // Limit JSON payload size
+app.use(cookieParser());
 
-// Import route modules
-const user = require("./routes/userRoute"); // Import user route module
+// Apply audit middleware to all API routes
+app.use('/api', auditMiddleware);
 
-// API routes
-const baseUrl = "/api/v1";
-app.use(baseUrl, user);
+// Import API routes
+const apiV1Routes = require("./api/v1/routes");
 
-// Serve frontend static files in development mode for testing
-// Comment out the production-only check to test frontend serving
-// if (process.env.NODE_ENV === "production") {
-  // Set static folder - update path to point to Vite's output directory
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Mount API routes with versioning
+app.use("/api/v1", apiV1Routes);
 
-  // Serve index.html for any route not matching API routes
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
-  });
-// }
+// Serve frontend static files
+// Set static folder - update path to point to Vite's output directory
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// API Documentation route with Swagger UI - publicly accessible
+// Make sure Swagger UI is served before the catch-all route
+app.use("/api-docs", swaggerUi.serve);
+app.get("/api-docs", swaggerUi.setup(swaggerSpec, {
+  explorer: true,
+  customSiteTitle: "User Auth API Documentation"
+}));
+
+// Serve index.html for any route not matching API routes or Swagger UI
+app.get("*", (_, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
+});
 
 // Middleware for handling errors
 app.use(errorMiddleware); // Use error handling middleware to catch and handle errors

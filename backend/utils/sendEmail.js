@@ -1,6 +1,6 @@
 const nodeMailer = require("nodemailer");
 
-const sendEmail = async (email, subject, message) => {
+const sendEmail = async (email, subject, htmlMessage, textMessage = null) => {
     try {
         const transporter = nodeMailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -17,13 +17,14 @@ const sendEmail = async (email, subject, message) => {
             from: process.env.SMTP_MAIL,
             to: email,
             subject: subject,
-            html: message,
-            isBodyHtml: true
+            html: htmlMessage,
+            // Include plain text version if provided
+            text: textMessage || htmlMessage.replace(/<[^>]*>/g, ''), // Strip HTML tags if no text version
         };
 
         const result = await transporter.sendMail(mailOptions);
         return "email sent";
-        
+
     } catch (error) {
         console.log(error);
         return error.message;
